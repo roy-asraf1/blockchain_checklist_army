@@ -5,26 +5,50 @@
 # Postman HTTP Client: https://www.getpostman.com/
 
 # Importing the libraries
-import datetime
+import datetime # when the hash created
 import hashlib
 import json
-from flask import Flask, jsonify
+from Flask import Flask, jsonify
+from check_list import Helmet,Uniform,Water_bottle
 
 # Part 1 - Building a Blockchain
+
+
 
 class Blockchain:
 
     def __init__(self):
         self.chain = []
-        self.create_block(proof = 1, previous_hash = '0')
+        self.create_block(proof = 1, previous_hash = '0') #our function , the second is arbitery value we can change this for rsi
+
 
     def create_block(self, proof, previous_hash):
         block = {'index': len(self.chain) + 1,
-                 'timestamp': str(datetime.datetime.now()),
+                 'timestamp': str(datetime.datetime.now()), #the year,month ans stuff...
                  'proof': proof,
-                 'previous_hash': previous_hash}
+                 'previous_hash': previous_hash,
+                 'equipment list' : 'Helmet , uniform, water bottle'}
         self.chain.append(block)
         return block
+
+    # def update_checkList(self):
+    #
+    #     self.equipment  = ()
+    #     print("get helemet chose yes or no:")
+    #
+    #
+    #         Helmet = input("Enter True or False: ")
+    #         print("You entered helmet: ", Helmet)
+    #
+    #         uniform = input("Enter True or False: ")
+    #         print("You entered helmet: ", uniform)
+    #
+    #         water = input("Enter True or False: ")
+    #         print("You entered helmet: ", water)
+    #
+    #         stretcher = input("Enter True or False: ")
+    #         print("You entered helmet: ", stretcher)
+
 
     def get_previous_block(self):
         return self.chain[-1]
@@ -34,8 +58,8 @@ class Blockchain:
         check_proof = False
         while check_proof is False:
             hash_operation = hashlib.sha256(str(new_proof**2 - previous_proof**2).encode()).hexdigest()
-            if hash_operation[:4] == '0000':
-                check_proof = True
+            if hash_operation[:4] == '0000': #more 0 is more diffucult to resolve (64 chars)
+                check_proof = True 
             else:
                 new_proof += 1
         return new_proof
